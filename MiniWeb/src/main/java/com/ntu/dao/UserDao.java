@@ -31,7 +31,7 @@ public class UserDao {
 
     public User findByUsernameAndEmail(String username, String email) {
         User user = null;
-        String sql = "select * from user where username = ? and email = ?";
+        String sql = "select * from user where username = ? or email = ?";
         try {
             user = template.queryForObject(sql, new BeanPropertyRowMapper<User>(User.class),username, email);
         } catch (DataAccessException ignored) {

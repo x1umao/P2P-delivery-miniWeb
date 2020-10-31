@@ -42,9 +42,17 @@ public class TaskDao {
     }
 
     public List<Task> getTaskByDriver(int pageNum, int uid, String username) {
-        String sql = " select task.*,user.username from user,task,msg where task.driver_id = ? or(msg.talker = ? and msg.task_id = task.tid and task.customer_id!=?) group by task.tid order by task.tid desc limit ?,5";
+//        String sql = " select task.*,user.username from user,task,msg where task.driver_id = ? or(msg.talker = ? and msg.task_id = task.tid and task.customer_id!=?) group by task.tid order by task.tid desc limit ?,5";
 //        String sql = "select * from task,user,msg where task.customer_id = user.uid and (task.driver_id = ? or msg.talker=?) group by task.tid order by task.tid desc limit ?,5";
-        return template.query(sql, new BeanPropertyRowMapper<>(Task.class),uid,username,uid,pageNum * 5);
+        String sql = "(select task.*, user.username "+
+        "from task, user "+
+        "where task.tid = any (select task_id from msg where talker = ?) "+
+        "and task.customer_id != ? "+
+        "and task.customer_id = user.uid) "+
+        "union "+
+        "(select task.*, user.username from task,user where task.customer_id = user.uid and task.driver_id = ?) "+
+        "order by tid desc limit ?,5";
+        return template.query(sql, new BeanPropertyRowMapper<>(Task.class),username,uid,uid,pageNum * 5);
     }
 
 
