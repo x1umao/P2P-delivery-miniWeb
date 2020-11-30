@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="/assets/img/favicon-small.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/assets/img/favicon-large.png" sizes="32x32">
+    <title>GetDelivered - Sign In</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+
+</head>
+
+<body class="bg-white">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-lg-6 d-none d-lg-block signup-bg">
+            <div class="gradient full-opacity-gradient"></div>
+            <section class="cd-intro">
+                <h1 class="cd-headline slide">
+                    <span>Welcome back.</span>
+                </h1>
+            </section>
+        </div>
+        <div class="col-12 col-lg-6 text-center nofloat-block signup-form-bg">
+            <div class="signup-form-block">
+                <form class="form-signin" id="loginForm">
+                    <img class="mb-4" src="/assets/img/logo-xl.png" alt="" width="72" height="72">
+                    <h2 class="mb-3">Sign In</h2>
+
+                    <label for="inputEmail" class="sr-only">Email Address</label>
+                    <input type="email" class="form-control mb-2" id="inputEmail" name="email" placeholder="Email"
+                           required>
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" class="form-control mb-4" id="inputPassword" name="password"
+                           placeholder="Password" required>
+                    <button class="btn btn-primary btn-block mb-4" type="button" id="submit-btn">Continue</button>
+                    <div id="errorMsg" class="alert alert-danger" style="display: none">
+                        Sorry, your password was incorrect. Please double-check your password.
+                    </div>
+                </form>
+                <div class="login-prompt mb-5">Don't have an account? <a href="signup.html" class="text-link">Sign
+                    Up</a></div>
+            </div>
+            <p class="text-muted cd-floating-text">&copy; 2020 GetDelivered - P2P Delivery System</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#submit-btn").click(d => {
+            const json = JSON.stringify(
+                $("#loginForm").serializeJSON()
+            );
+
+            $.post("/loginServlet", {data: json}, function (d) {
+                if(d==="fail"){
+                    $("#errorMsg").show();
+                }else {
+                    location.href="index.html";
+                }
+                console.log(d);
+            });
+        });
+    });
+</script>
+</body>
+</html>

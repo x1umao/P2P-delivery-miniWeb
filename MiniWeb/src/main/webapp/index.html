@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="assets/img/favicon-small.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="assets/img/favicon-large.png" sizes="32x32">
+    <title>GetDelivered - Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-4">
+            <nav class="navbar navbar-expand-md fixed-top">
+                <a class="navbar-brand pb-md-5" href><img src="assets/img/logo.png"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active" id="nav-home-btn">
+                            <a class="nav-link">
+                                <i class="fa fa-compass"></i>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="nav-myrequest-btn">
+                            <a class="nav-link">
+                                <i class="fa fa-comment"></i>
+                                <span>My Requests</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="nav-myjobs-btn">
+                            <a class="nav-link">
+                                <i class="fa fa-truck"></i>
+                                <span>My Jobs</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="nav-myprofile-btn">
+                            <a class="nav-link">
+                                <i class="fa fa-user-circle"></i>
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="nav-signout-btn">
+                                <i class="fa fa-power-off"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="col-12 col-md-8 mt-5 mt-md-0" id="form">
+            <div class="row">
+                <h1 class="py-5"><span id="main_title">Delivery Requests</span></h1>
+            </div>
+            <div id='panel'>
+                <!-- search bar -->
+                <div class="row pb-4" id="search_bar">
+                    <div class="col-12 col-md-4 col-lg-3 mb-3 mb-lg-0 pl-0 pr-0 pr-lg-3">
+                        <button type="button" id='add_new_request_button'
+                                class="btn btn-block btn-primary white-button"><a><i class="fa fa-plus"></i> New
+                            Request</a></button>
+                    </div>
+                </div>
+                <div id='home_post_panel'>
+                    <div class="row" id="post_container">
+                        <button type="button" class="btn btn-primary btn-lg btn-block morePost" id="morePost">more posts
+                        </button>
+                    </div>
+                </div>
+                <div id="my_requests_panel" style="display: none;">
+                    <div class="row" id="post_container">
+                        <button type="button" class="btn btn-primary btn-lg btn-block morePost" id="morePost">more posts
+                        </button>
+                    </div>
+                </div>
+                <div id="my_jobs_panel" style="display: none;">
+                    <div class="row" id="post_container">
+                        <button type="button" class="btn btn-primary btn-lg btn-block morePost" id="morePost">more posts
+                        </button>
+                    </div>
+                </div>
+                <div class="row" id='add-new-request' style="display: none;">
+                    <div class="col-12 p-4 px-lg-5 mb-4 nofloat-block">
+                        <form method="post" action="addPostServlet" id="newPostForm">
+                            <div class="row">
+                                <div class="col-6 col-lg-6">
+                                    <label for="pickup">Pickup Time*</label>
+                                    <input type="datetime-local" class="form-control mb-4" id="pickup"
+                                           name="pickupTime">
+                                </div>
+                                <br>
+                                <div class="col-6 col-lg-6">
+                                    <label for="dropoff">Dropoff Time*</label>
+                                    <input type="datetime-local" class="form-control mb-4" id="dropoff"
+                                           name="deliverTime">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="pickaddress">Pickup Address*</label>
+                                    <input type="text" class="form-control mb-3" id="pickaddress"
+                                           name="pickupAddress">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="dropaddress">Dropoff Address*</label>
+                                    <input type="text" class="form-control mb-3" id="dropaddress"
+                                           name="deliverAddress">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="remarks">Remarks</label>
+                                    <textarea id="remarks" class="form-control mb-3" name="remarks" rows="4"
+                                              cols="50" placeholder="e.g. fragile items, frozen food"></textarea>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 pt-3">
+                                    <button type="button" class="btn btn-primary float-right" id="newPostSubmit">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="row" id="my_profiles" style="display: none;">
+                    <div class="col-12 p-4 px-lg-5 mb-4 task-block">
+                        <h3 class="pb-4">Hi, <span id="username">John Doe</span></h3>
+                        <div class="row">
+                            <div class="col-3 col-lg-2">
+                                <p class="font-weight-bold">Email</p>
+                            </div>
+                            <div class="col-9 col-lg-10 pb-3">
+                                <p><span id="email">john.doe@email.com</span></p>
+                            </div>
+                        </div>
+                        <div style="display: none">
+                            <hr>
+                            <div class="row pt-3">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-primary float-right ml-2"><a
+                                            href="edit-profile.html">Edit</a></button>
+                                    <button type="button" class="btn btn-primary float-right"><a
+                                            href="change-password.html">Change Password</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="post_detail" style="display: none;">
+                    <div class="row" id="card_detail">
+                        <div class="col-12 p-4 px-lg-5 mb-4 task-block" id="flag">
+                            <h3 class="pb-4">Request: #<span id="tid">003</span></h3>
+                            <div id="badges">
+                                <span class="badge badge-pill badge-success status-badge"
+                                      id="status_completed"
+                                      style="display: none;">Completed</span>
+                                <span class="badge badge-pill badge-dark status-badge" id="status_deleted"
+                                      style="display: none;">Deleted</span>
+                                <span class="badge badge-pill badge-info status-badge" id="status_active"
+                                      style="display: none;">Active</span>
+                                <span class="badge badge-pill badge-secondary status-badge" id="status_expired"
+                                      style="display: none;">Expired</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-3 col-lg-2">
+                                    <p class="font-weight-bold">Pick Up</p>
+                                </div>
+                                <div class="col-9 col-lg-10 pb-3">
+                                    <p><span id="pickupAddress">Pasir Panjang Gardens 35 Jalan Mas Puteh</span></p>
+                                    <p><span id="pickupTime">12 Oct 2020 10:00AM</span></p>
+                                </div>
+                            </div>
+                            <div class="row pb-3">
+                                <div class="col-3 col-lg-2">
+                                    <p class="font-weight-bold">Drop Off</p>
+                                </div>
+                                <div class="col-9 col-lg-10">
+                                    <p><span id="deliverAddress">50 Kallang Avenue 05-04A Noel Corporate
+                                                Building</span></p>
+                                    <p><span id="deliverTime">12 Oct 2020 11:00AM</span></p>
+                                </div>
+                            </div>
+                            <div class="row pb-3">
+                                <div class="col-3 col-lg-2">
+                                    <p class="font-weight-bold">Remarks</p>
+                                </div>
+                                <div class="col-9 col-lg-10">
+                                    <p><span id="remarks">Frozen food, please prepare cooler bag</span></p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row pt-3">
+                                <div class="col-12 col-lg-5 my-auto">
+                                    <p>Posted by <span class="font-weight-bold" id="customer">John Doe</span> on
+                                        <span id="postTime">23 Sept 2020</span></p>
+                                </div>
+                                <div class="col-12 col-lg-7 pt-3 pt-lg-0">
+                                    <button type="button" class="btn btn-secondary float-right" id="delete_btn"
+                                            onclick="deletePost(this)">Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="chat_container" style="display: none">
+                        <div class="row">
+                            <h4 class="mb-4">Enquiries</h4>
+                        </div>
+                        <div class="row mb-3">
+                            <button type="button" class="btn btn-primary mr-2 float-right white-button"
+                                    id="refresh-btn">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                        </div>
+                        <div id="chats">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Customer Msg Modal-->
+<div class="modal fade" id="CustomerMsgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Send Message</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="drivermsg">Message</label>
+                        <textarea id="drivermsg" class="form-control mb-3" name="customermsg" rows="4"
+                                  cols="50">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="button" data-dismiss="modal" id="sendMsg">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--card template-->
+<div class="row" id="card" style="display: none;">
+    <div class="col-12 p-4 px-lg-5 mb-4 task-block" id="flag">
+        <h3 class="pb-4">Request: #<span id="tid">003</span></h3>
+        <span class="badge badge-pill badge-success status-badge" id="status_completed"
+              style="display: none;">Completed</span>
+        <span class="badge badge-pill badge-dark status-badge" id="status_deleted" style="display: none;">Deleted</span>
+        <span class="badge badge-pill badge-info status-badge" id="status_active" style="display: none;">Active</span>
+        <span class="badge badge-pill badge-secondary status-badge" id="status_expired"
+              style="display: none;">Expired</span>
+
+        <div class="row">
+            <div class="col-3 col-lg-2">
+                <p class="font-weight-bold">Pick Up</p>
+            </div>
+            <div class="col-9 col-lg-10 pb-3">
+                <p><span id="pickupAddress">Pasir Panjang Gardens 35 Jalan Mas Puteh</span></p>
+                <p><span id="pickupTime">12 Oct 2020 10:00AM</span></p>
+            </div>
+        </div>
+        <div class="row pb-3">
+            <div class="col-3 col-lg-2">
+                <p class="font-weight-bold">Drop Off</p>
+            </div>
+            <div class="col-9 col-lg-10">
+                <p><span id="deliverAddress">50 Kallang Avenue 05-04A Noel Corporate
+                                                Building</span></p>
+                <p><span id="deliverTime">12 Oct 2020 11:00AM</span></p>
+            </div>
+        </div>
+        <div class="row pb-3">
+            <div class="col-3 col-lg-2">
+                <p class="font-weight-bold">Remarks</p>
+            </div>
+            <div class="col-9 col-lg-10">
+                <p><span id="remarks">Frozen food, please prepare cooler bag</span></p>
+            </div>
+        </div>
+        <hr>
+        <div class="row pt-3">
+            <div class="col-12 col-lg-5 my-auto">
+                <p>Posted by <span class="font-weight-bold" id="customer">John Doe</span> on
+                    <span id="postTime">23 Sept 2020</span></p>
+            </div>
+            <div class="col-12 col-lg-7 pt-3 pt-lg-0" id="bid_btn">
+                <button type="button" class="btn btn-primary float-right" onclick="bidClick(this)">
+                    Bid
+                </button>
+            </div>
+            <div class="col-12 col-lg-7 pt-3 pt-lg-0" id="detail_btn">
+                <button type="button" id="details" class="btn btn-primary float-right ml-2"
+                        onclick="renderDetail(this)">Details
+                </button>
+                <!--                <button type="button" class="btn btn-primary float-right"><a href="edit-request.html">Edit</a></button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--chat template-->
+<div class="row" style="display: none" id="chat">
+    <div class="col-12 p-4 px-lg-5 mb-4 nofloat-block">
+        <div class="row">
+            <div class="col-12">
+                <p>Posted by <span class="font-weight-bold" id="talker">McQueen</span></p>
+            </div>
+        </div>
+        <div id="chat_space"></div>
+        <div class="row">
+            <div class="col-12 offset-md-4 col-md-8">
+                <div class="outgoing-msg float-right">
+                    <button type="button" class="btn btn-primary float-right deal_btn" onclick="dealClick(this)"
+                            id="deal_btn">Deal
+                    </button>
+                    <button type="button" class="btn btn-primary mr-2 float-right" onclick="replyClick(this)"
+                            id="reply_btn">
+                        Reply
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--chat pill template-->
+<div class="row" id="chat_talker" style="display: none">
+    <div class="col-8">
+        <div class="incoming-msg float-left">
+            <div class="received-msg my-2 p-3">
+                <p><span id="message"></span></p>
+            </div>
+            <p><span id="post_time"></span></p>
+        </div>
+    </div>
+</div>
+<div class="row" id="chat_listener" style="display: none">
+    <div class="col-8 offset-4">
+        <div class="outgoing-msg float-right">
+            <div class="sent-msg my-2 p-3">
+                <p><span id="message"></span></p>
+            </div>
+            <p><span id="post_time"></span></p>
+        </div>
+    </div>
+</div>
+<script>
+    let homePageIndex = 0;
+    let myReqPageIndex = 0;
+    let myJobPageIndex = 0;
+    let pageStatus = 0;//0:home 1:myrequest 2:myjob 3:postdetail 4:profile
+    let msgTid = 0;
+    let msgListener = "";
+    let currentUser = "";
+    $(function () {
+        document.onkeydown = function () {
+        };
+        $("textarea#drivermsg").val("");
+        //login?
+        $.post("/findUserServlet", function (user) {
+            if (user === null) {
+                $(".container").children().remove();
+                // alert("Please login!");
+                location.href = "login.html";
+            } else {
+                //update Myprofile
+                $("#my_profiles").find("span#username").html(user.username);
+                $("#my_profiles").find("span#email").html(user.email);
+                //首页渲染，加载5个页面。
+                currentUser = user.username;
+                getPage(homePageIndex++, 0);
+            }
+        })
+
+        //all the button transaction
+        $(".morePost").click(function () {
+            if (pageStatus === 0) {
+                getPage(homePageIndex++, pageStatus);
+            }
+            if (pageStatus === 1) {
+                getPage(myReqPageIndex++, pageStatus);
+            }
+            if (pageStatus === 2) {
+                getPage(myJobPageIndex++, pageStatus);
+            }
+        });
+        $("#add_new_request_button").click(function () {
+            $("#panel").children().hide();
+            $("#add-new-request").show();
+        });
+        //submit new post
+        $('#newPostSubmit').click(function () {
+            let form = $("#newPostForm").serializeJSON();
+            console.log(form);
+            if (postCheck(form)) {
+                const strJson = JSON.stringify(form);
+                $.post("/addPostServlet", {data: strJson}, function (d) {
+                    if (d == 1) {
+                        console.log("success.");
+                        alert("Post successfully");
+                        location.reload();
+                    }
+                    if (d == 0) {
+                        alert("Fail to post.");
+                        console.log("fail");
+                    }
+                });
+            }
+        });
+        //send msg
+        $("#sendMsg").click(sendMessage);
+        //refresh butto
+        $("#refresh-btn").click(refreshClick);
+
+        //nav-bar button action
+        $("#nav-home-btn").click(function () {
+            pageStatus = 0;
+            homePageIndex = 0;
+            $("#home_post_panel").find(".usedCards").remove();
+            getPage(homePageIndex++, pageStatus);
+            //button active
+            $(".navbar-nav").children().removeClass("active");
+            $(this).addClass("active")
+
+            //change main title
+            $("#main_title").html("Delivery Requests");
+
+            //change panel
+            $("#chat_container").find("div#chats").children().remove();
+            $("#chat_container").hide();
+            $("#panel").children().hide();
+            $("#search_bar").show();
+            $("#home_post_panel").show();
+            document.body.scrollIntoView();
+        });
+        $("#nav-myrequest-btn").click(function () {
+            pageStatus = 1;
+            myReqPageIndex = 0;
+            $("#my_requests_panel").find(".usedCards").remove();
+            getPage(myReqPageIndex++, pageStatus);
+
+            $(".navbar-nav").children().removeClass("active");
+            $(this).addClass("active");
+
+            //change main title
+            $("#main_title").html("My Requests");
+
+            $("#chat_container").find("div#chats").children().remove();
+            $("#chat_container").hide();
+            $("#panel").children().hide();
+            $("#my_requests_panel").show();
+            $("#search_bar").show();
+        });
+        $("#nav-myjobs-btn").click(function () {
+            pageStatus = 2;
+            myJobPageIndex = 0;
+            $("#my_jobs_panel").find(".usedCards").remove();
+            getPage(myJobPageIndex++, pageStatus);
+
+            $(".navbar-nav").children().removeClass("active");
+            $(this).addClass("active");
+
+            //change main title
+            $("#main_title").html("My Jobs");
+
+            $("#chat_container").find("div#chats").children().remove();
+            $("#chat_container").hide();
+            $("#panel").children().hide();
+            $("#my_jobs_panel").show();
+        });
+        $("#nav-myprofile-btn").click(function () {
+            pageStatus = 4;
+            $(".navbar-nav").children().removeClass("active");
+            $(this).addClass("active");
+
+            //change main title
+            $("#main_title").html("My Profiles");
+
+            $("#chat_container").find("div#chats").children().remove();
+            $("#chat_container").hide();
+            $("#panel").children().hide();
+            $("#my_profiles").show();
+        });
+        $("#nav-signout-btn").click(function () {
+            $.post("/signoutServlet", function (d) {
+                $(".container").children().remove();
+                alert(d);
+                location.href = "login.html";
+            });
+        });
+    })
+
+    function getPage(index, status) {
+        $.post("/pageServlet", {pageNum: index, pageStatus: status}, function (d) {
+            renderPage(d, status);
+            console.log(d);
+        });
+    }
+
+    function sendMessage() {
+
+        const msg = $("textarea#drivermsg").val();
+        console.log(msg);
+        //forbid to send empty msg
+        if (msg !== "") {
+            $.post("sendMsgServlet", {listener: msgListener, msg: msg, tid: msgTid}, d => {
+                console.log("Send ok!");
+                refreshClick();
+            });
+        }
+        $("textarea#drivermsg").val("");
+    }
+
+    function postCheck(form) {
+        if (form.deliverAddress === "" ||
+            form.deliverTime === "" ||
+            form.pickupAddress === "" ||
+            form.pickupTime === "") {
+            alert("Please complete the form!");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function renderPage(data, status) {
+        if (status > 2) {
+            const detail = $("#post_detail");
+            let item = data[0];
+            detail.find("span#tid").html(item.tid);
+            detail.find("span#pickupAddress").html(item.pickupAddress);
+            detail.find("span#pickupTime").html(item.pickupTime);
+            detail.find("span#deliverAddress").html(item.deliverAddress);
+            detail.find("span#deliverTime").html(item.deliverTime);
+            if (item.remarks === undefined) {
+                detail.find("span#remarks").html("NIL")
+            } else {
+                detail.find("span#remarks").html(item.remarks);
+            }
+            console.log(item.username);
+            detail.find("span#customer").html(item.username);
+            detail.find("span#postTime").html(item.postTime);
+            //隐藏所有badge，显示当前状态
+            $("#badges").children().hide();
+            setBadge($("#post_detail"), item.status);
+            detail.show();
+            if (item.status === 3 || item.status === 2) {
+                detail.find("#delete_btn").hide();
+
+            } else {
+                detail.find("#delete_btn").show();
+            }
+            console.log("11111"+" "+pageStatus);
+            if (pageStatus == 2) {
+                detail.find("#delete_btn").hide();
+            }
+            d();
+            if (item.status !== 1) {
+                $("#deal_btn").hide();
+            }
+            pageStatus = 3;
+
+        } else {
+            data.forEach(item => {
+                $("#card").find("span#tid").html(item.tid);
+                $("#card").find("span#pickupAddress").html(item.pickupAddress);
+                $("#card").find("span#pickupTime").html(item.pickupTime);
+                $("#card").find("span#deliverAddress").html(item.deliverAddress);
+                $("#card").find("span#deliverTime").html(item.deliverTime);
+                if (item.remarks === undefined) {
+                    $("#card").find("span#remarks").html("NIL")
+                } else {
+                    $("#card").find("span#remarks").html(item.remarks);
+                }
+                $("#card").find("span#customer").html(item.username);
+                $("#card").find("span#postTime").html(item.postTime);
+                const card = $("#card").clone();
+                card.attr("id", null);
+                card.attr("class", "usedCards");
+                card.addClass("row");
+                if (status === 0) {
+                    card.find("div#detail_btn").remove();
+                    $("#home_post_panel").find("#post_container").before(card);
+                }
+                if (status === 1) {
+                    setBadge(card, item.status);
+                    card.find("div#bid_btn").remove();
+                    $("#my_requests_panel").find("#post_container").before(card);
+                }
+                if (status === 2) {
+                    console.log(item);
+                    setBadge(card, item.status);
+                    card.find("div#bid_btn").remove();
+                    $("#my_jobs_panel").find("#post_container").before(card);
+                }
+                card.slideDown("slow");
+            });
+        }
+
+    }
+
+    function setBadge(card, badge) {
+        if (badge === 1)
+            card.find("span#status_active").show();
+        if (badge === 2)
+            card.find("span#status_completed").show();
+        if (badge === 3)
+            card.find("span#status_deleted").show();
+        if (badge === 4)
+            card.find("span#status_expired").show();
+    }
+
+    //detail button
+    function renderDetail(btn) {
+        let tid = $(btn).parent().parent().parent().find('#tid').html();
+        $("#panel").children().hide();
+        //change main title
+        if (pageStatus === 1) {
+            $("#main_title").html("My Request Detail");
+        }
+        if (pageStatus === 2) {
+            $("#main_title").html("My Jobs Detail");
+        }
+        //使用tid代替其他状态
+        console.log("tid:" + tid);
+
+        getPage(1, tid);
+
+        //render chat
+        renderChat(tid);
+        document.body.scrollIntoView();
+    }
+
+    function renderChat(tid) {
+        $.post("findMsgServlet", {tid: tid}, function (data) {
+            let talkerSet = new Set();
+            console.log(data);
+            data.forEach(d => {
+                $("#chat_container").show();
+                talkerSet.add(d.talker);
+                talkerSet.add(d.listener);
+            });
+            console.log(talkerSet);
+            //渲染聊天框
+            talkerSet.forEach(talker => {
+                //filter myself post
+                if (talker !== currentUser) {
+                    const chat = $("#chat").clone();
+                    chat.attr("id", null);
+                    chat.find("span#talker").html(talker);
+                    data.forEach(d => {
+                        if (d.talker === talker) {
+                            const chat_pill = $("#chat_talker").clone();
+                            chat_pill.attr("id", null);
+                            chat_pill.find("span#message").html(d.message);
+                            chat_pill.find("span#post_time").html(d.postTime);
+                            chat.find("div#chat_space").append(chat_pill);
+                            chat_pill.show();
+                            // console.log(d.message);
+                        }
+                        if (d.listener === talker) {
+                            const chat_pill = $("#chat_listener").clone();
+                            chat_pill.attr("id", null);
+                            chat_pill.find("span#message").html(d.message);
+                            chat_pill.find("span#post_time").html(d.postTime);
+                            chat.find("div#chat_space").append(chat_pill);
+                            chat_pill.show();
+                            // console.log(d.message);
+                        }
+                    });
+                    $("#chat_container").find("div#chats").prepend(chat);//append 聊天！！！
+                    chat.show();
+                }
+                if (talker === "System") {
+                    $("#reply_btn").hide();
+                } else {
+                    $("#reply_btn").show();
+                }
+            });
+        });
+        const flag = $(".active").find("span").html();
+        //hide deal button for driver
+        if (flag === "My Jobs") {
+            $("#deal_btn").hide();
+        } else {
+
+            $("#deal_btn").show();
+        }
+
+    }
+
+    //bid button
+    function bidClick(btn) {
+        msgTid = $(btn).parent().parent().parent().find('#tid').html();
+        msgListener = $(btn).parent().parent().find("#customer").html();
+        $('#CustomerMsgModal').modal("show");
+    }
+
+    //reply button
+    //通过 sidebar 判断当前状态，填写不同的listener
+    function replyClick(btn) {
+        const flag = document.querySelector(".active").innerText;
+        if ($.trim(flag) == "My Jobs") {
+            console.log("job")
+            msgListener = $("#card_detail").find("span#customer").html();
+        }
+        if ($.trim(flag) == "My Requests") {
+            console.log("req")
+            msgListener = $(btn).parent().parent().parent().parent().find("span#talker").html();
+        }
+        console.log(msgListener);
+        //找出消息的tid 和 接收er
+        msgTid = $("#card_detail").find("span#tid").html();
+        $('#CustomerMsgModal').modal("show");
+    }
+
+    //deal button
+    function dealClick(btn) {
+        let tid = $("#card_detail").find("span#tid").html();
+        const driver = $(btn).parent().parent().parent().parent().find("span#talker").html();
+        $.post("dealTaskServlet", {tid: tid, driver: driver}, function (d) {
+            if (d === "1") {
+                // alert("deal task!");
+                $("#panel").children().hide();
+                //change main title
+                if (pageStatus === 1) {
+                    $("#main_title").html("My Request Detail");
+                }
+                if (pageStatus === 2) {
+                    $("#main_title").html("My Jobs Detail");
+                }
+                $("#chats").children().remove();
+
+                getPage(1, tid);
+
+                //render chat
+                renderChat(tid);
+            }
+        })
+    }
+
+    //refresh button
+    function refreshClick() {
+        const tid = $("#card_detail").find("span#tid").html();
+        console.log(tid);
+        $("#chats").children().remove();
+        getPage(1, tid);
+        //render chat
+        renderChat(tid)
+    }
+
+    //delete button in the detail
+    function deletePost(btn) {
+        const tid = $(btn).parent().parent().parent().find('#tid').html();
+        //delete task by tid
+        $.post("deletePostServlet", {tid: tid}, function (d) {
+            if (d == 1) {
+                console.log("delete successfully.");
+                alert("delete successfully");
+                refreshClick();
+            }
+            if (d == 0) {
+                alert("Fail to post.");
+                console.log("fail");
+            }
+        })
+    }
+
+    function d() {
+        const flag = $(".active").find("span").html();
+        console.log(flag);
+        //Todo
+        if (flag === "My Jobs") {
+            $("#delete_btn").hide();
+        } else {
+
+            $("#delete_btn").show();
+        }
+    }
+    let searchStr = $('input').val()//get from the search input
+    $.post("/SearchStaff", {searchString: searchStr}, function (){
+
+    })
+
+</script>
+</body>
+
+</html>

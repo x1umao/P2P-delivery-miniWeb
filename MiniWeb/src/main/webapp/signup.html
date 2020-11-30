@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="/assets/img/favicon-small.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/assets/img/favicon-large.png" sizes="32x32">
+    <title>GetDelivered - Sign Up</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/word-flip.js"></script>
+
+</head>
+
+<body class="bg-white">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-6 d-none d-lg-block signup-bg">
+                <img src="/assets/img/parcel.jpg" alt="banner">
+                <div class="gradient"></div>
+                <section class="cd-intro">
+                    <h1 class="cd-headline slide">
+                        <span>We've</span>
+                        <span>got you</span>
+                        <span class="cd-words-wrapper">
+                            <b class="is-visible">covered.</b>
+                            <b>delivered.</b>
+                            <b>hired.</b>
+                        </span>
+                    </h1>
+                </section>
+            </div>
+            <div class="col-12 col-lg-6 text-center nofloat-block signup-form-bg">
+                <div class="signup-form-block">
+                    <form class="form-signin">
+                        <img class="mb-4" src="/assets/img/logo-xl.png" alt="" width="72" height="72">
+                        <h2 class="mb-3">Create Account</h2>
+                        <label for="username" class="sr-only">Username</label>
+                        <input type="text" class="form-control mb-2" id="username" name="username"
+                            placeholder="Username" required>
+                        <label for="inputEmail" class="sr-only">Email Address</label>
+                        <input type="email" class="form-control mb-2" id="inputEmail" name="email" placeholder="Email"
+                            required>
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <input type="password" class="form-control mb-4" id="inputPassword" name="password"
+                            placeholder="Password" required>
+                        <button class="btn btn-primary btn-block mb-4" type="button" id="submit-btn">Sign Up</button>
+                        <div id="errorMsg" class="alert alert-danger" style="display: none">
+                            Sorry, your E-mail or username was already registered.
+                        </div>
+                    </form>
+                    <div class="login-prompt mb-5">Already have an account? <a href="login.html" class="text-link">Sign
+                            In</a></div>
+                </div>
+                <p class="text-muted cd-floating-text">&copy; 2020 GetDelivered - P2P Delivery System</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $("#submit-btn").click(d => {
+                const json = JSON.stringify(
+                    $(".form-signin").serializeJSON()
+                );
+                if (checkUsername() && checkPassword() && checkEmail()) {
+                    $.post("/signupServlet", { data: json }, function (d) {
+                        if (d === "fail") {
+                            $("#errorMsg").show();
+                        } else {
+                            location.href = "index.html";
+                        }
+                    });
+                }
+            });
+        });
+
+        function checkEmail() {
+            var email = $("#inputEmail").val();
+            var reg_email = /^\w+@\w+\.\w+$/;
+
+            var flag = reg_email.test(email);
+            if (flag) {
+                $("#inputEmail").css("border", "");
+            } else {
+                $("#inputEmail").css("border", "1px solid red");
+            }
+
+            return flag;
+        }
+        function checkPassword() {
+            var password = $("#inputPassword").val();
+            var reg_password = /^\w+$/;
+
+            var flag = reg_password.test(password);
+            if (flag) {
+                $("#inputPassword").css("border", "");
+            } else {
+                $("#inputPassword").css("border", "1px solid red");
+            }
+
+            return flag;
+        }
+        function checkUsername() {
+            var username = $("#username").val();
+            var reg_username = /^\w+$/;
+
+            var flag = reg_username.test(username);
+            if (flag) {
+                $("#username").css("border", "");
+            } else {
+                $("#username").css("border", "1px solid red");
+            }
+            return flag;
+        }
+    </script>
+</body>
+
+</html>
